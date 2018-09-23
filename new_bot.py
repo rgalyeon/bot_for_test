@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from vedis import Vedis
 from config import *
 import dbworker
