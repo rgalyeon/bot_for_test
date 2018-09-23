@@ -24,18 +24,18 @@ def set_state(user_id, value):
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
     state = dbworker.get_current_state(message.chat.id)
-    if state == config.States.S_START.value:
+    if state == States.S_START.value:
         bot.send_message(message.chat.id, "Кажется, ты хотел выбрать тест. Пиши /test[номер задания] "
                                           "и следуй дальнейшим инструкциям")
-    elif state == config.States.S_ENTER.value:
+    elif state == States.S_ENTER.value:
         bot.send_message(message.chat.id, "Кажется, ты забыл включить/выключить проверку задания")
-    elif state == config.States.S_DOC.value:
+    elif state == States.S_DOC.value:
         bot.send_message(message.chat.id, "Кажется, кто-то хотел отправить txt файл с заданием, "
                                           "но так и не сделал этого :( Жду...")
     else:  # Под "остальным" понимаем состояние "0" - начало диалога
         bot.send_message(message.chat.id, "Привет! Выбирай задание с помощью команды "
                                           "/test[номер задания]")
-        dbworker.set_state(message.chat.id, config.States.S_TEST.value)
+        dbworker.set_state(message.chat.id, States.S_TEST.value)
 
 @bot.message_handler(commands=exercises_list,
                      func=lambda message: dbworker.get_current_state(message.chat.id) == States.S_TEST.value)
