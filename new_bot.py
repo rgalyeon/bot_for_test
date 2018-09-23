@@ -4,6 +4,7 @@ from vedis import Vedis
 from config import *
 import dbworker
 import telebot
+from enum import Enum
 
 # Пытаемся узнать из базы «состояние» пользователя
 def get_current_state(user_id):
