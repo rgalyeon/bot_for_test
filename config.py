@@ -7,8 +7,9 @@ db_file = 'database.vdb'
 
 class States(Enum):
     S_START = "0"
-    S_ENTER = "1"
-    S_DOC = "2"
+    S_TEST = "1"
+    S_SWITCH = "2"
+    S_DOC = "3"
 
 bot = telebot.TeleBot(token)
 
@@ -62,4 +63,4 @@ ex_dict = {
 }
 
 # Answer's list
-answers = ['10', '23', '26', '4', '5', '6', '33', '12', '8', '7']
+answers = ['_', '10', '23', '26', '4', '5', '6', '33', '12', '8', '7']
