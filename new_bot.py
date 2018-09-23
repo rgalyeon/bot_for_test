@@ -24,10 +24,10 @@ def set_state(user_id, value):
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
     state = dbworker.get_current_state(message.chat.id)
-    if state == States.S_START.value:
+    if state == States.S_TEST.value:
         bot.send_message(message.chat.id, "Кажется, ты хотел выбрать тест. Пиши /test[номер задания] "
                                           "и следуй дальнейшим инструкциям")
-    elif state == States.S_ENTER.value:
+    elif state == States.S_SWITCH.value:
         bot.send_message(message.chat.id, "Кажется, ты забыл включить/выключить проверку задания")
     elif state == States.S_DOC.value:
         bot.send_message(message.chat.id, "Кажется, кто-то хотел отправить txt файл с заданием, "
