@@ -103,3 +103,6 @@ def cmd_reset(message):
     bot.send_message(message.chat.id, "Что ж, начнём по-новой. Для отправки заданий используй команду"
                                       "/test[номер задания]")
     dbworker.set_state(message.chat.id, States.S_TEST.value)
+
+if __name__ == "__main__":
+    bot.polling(none_stop=True)
