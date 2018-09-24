@@ -1,22 +1,49 @@
 # -*- coding: utf-8 -*-
-
-from vedis import Vedis
+import sqlite3
 import config
 
-# Пытаемся узнать из базы «состояние» пользователя
-def get_current_state(user_id):
-    with Vedis(config.db_file) as db:
-        try:
-            return db[user_id]
-        except KeyError:  # Если такого ключа почему-то не оказалось
-            return config.States.S_START.value  # значение по умолчанию - начало диалога
+"""
+Functions that help
+to work with database
+"""
 
-# Сохраняем текущее «состояние» пользователя в нашу базу
-def set_state(user_id, value):
-    with Vedis(config.db_file) as db:
-        try:
-            db[user_id] = value
-            return True
-        except:
-            # тут желательно как-то обработать ситуацию
-            return False
+
+
+# Function add member and his state to database
+def add_states(id, state):
+    conn = sqlite3.connect(config.db_file)
+    c = conn.cursor()
+    c.execute("INSERT INTO states VALUES (:id, :state)",
+              {'id': id, 'state': state})
+    conn.commit()
+    conn.close()
+
+# Function changes state
+def update_state(id, state):
+    conn = sqlite3.connect(config.db_file)
+    c = conn.cursor()
+    c.execute("""UPDATE states SET state = :state
+                WHERE id = :id""",
+              {'id': id, 'state': state})
+    conn.commit()
+    conn.close()
+
+# Function deletes player's data from database
+def remove_id(id):
+    conn = sqlite3.connect(config.db_file)
+    c = conn.cursor()
+    c.execute("DELETE from states WHERE id = :id",
+              {'id': id})
+    conn.commit()
+    conn.close()
+
+# Function get the current state
+def get_state(id):
+    conn = sqlite3.connect(config.db_file)
+    c = conn.cursor()
+    c.execute("SELECT * FROM states WHERE id = :id",
+              {'id': id})
+    try:
+        return c.fetchall()[0][1]
+    except:
+        return 'False'
